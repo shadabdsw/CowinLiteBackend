@@ -19,4 +19,9 @@ public class UserService {
     public Iterable<User> getAllUsers() {
         return userRepository.findAll();
     }
+
+    public User getUserByPhoneNumber(String phoneNumber) {
+        return userRepository.findByPhoneNumber(phoneNumber);
+    }
+
 }
