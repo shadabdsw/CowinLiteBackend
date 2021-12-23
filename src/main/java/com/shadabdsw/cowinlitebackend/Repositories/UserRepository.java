@@ -10,5 +10,4 @@ public interface UserRepository extends MongoRepository<User, String> {
 
     User findByPhoneNumber(String phoneNumber);
 
-
 }
