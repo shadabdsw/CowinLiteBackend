@@ -1,5 +1,7 @@
 package com.shadabdsw.cowinlitebackend;
 
+import java.util.Optional;
+
 import com.shadabdsw.cowinlitebackend.Model.User;
 import com.shadabdsw.cowinlitebackend.Services.UserService;
 
@@ -19,12 +21,6 @@ public class MyController {
     @Autowired
     private UserService userService;
 
-    @PostMapping("/save")
-    @ResponseBody
-    public User saveUser(@RequestBody User user) { //return responsebody of <User>
-        return userService.saveUser(user);
-    }
-    
     @GetMapping("/")
     public Iterable<User> getAllUsers() {
         return userService.getAllUsers();
@@ -35,4 +31,24 @@ public class MyController {
         return userService.getUserByPhoneNumber(phoneNumber);
     }
 
+    @GetMapping("/getUserById/{_id}")
+    public Optional<User> getUserById(@PathVariable("_id") String _id) {
+        return userService.getUserById(_id);
+    }
+
+    @PostMapping("/save")
+    @ResponseBody
+    public User saveUser(@RequestBody User user) { //return responsebody of <User>
+        return userService.saveUser(user);
+    }
+
+    @PostMapping("/update")
+    public User updateUser(@RequestBody User user) {
+        return userService.updateUser(user);
+    }
+
+    // @GetMapping("/login")
+    // public boolean login(@RequestBody User user) {
+    //     return userService.login(user);
+    // }
 }
