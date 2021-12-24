@@ -30,24 +30,48 @@ public class User {
         return _id;
     }
 
+    public void set_id(String _id) {
+        this._id = _id;
+    }
+
     public String getName() {
         return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getPhoneNumber() {
         return phoneNumber;
     }
 
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
     public String getPassword() {
         return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getUserType() {
         return userType;
     }
 
+    public void setUserType(String userType) {
+        this.userType = userType;
+    }
+
     public List<Member> getMember() {
         return member;
+    }
+
+    public void setMember(List<Member> member) {
+        this.member = member;
     }
 
     @Override
