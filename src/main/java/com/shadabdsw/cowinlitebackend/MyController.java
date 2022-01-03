@@ -35,6 +35,16 @@ public class MyController {
     public Optional<User> getUserById(@PathVariable("_id") String _id) {
         return userService.getUserById(_id);
     }
+    
+    @GetMapping("/getAllPhoneNumbers")
+    public Iterable<String> getAllPhoneNumbers() {
+        return userService.getAllPhoneNumbers();
+    }
+
+    @GetMapping("/login/{phoneNumber}/{password}")
+    public boolean login(@PathVariable("phoneNumber") String phoneNumber, @PathVariable("password") String password) {
+        return userService.login(new User(phoneNumber, password));
+    }
 
     @PostMapping("/save")
     @ResponseBody
@@ -47,8 +57,4 @@ public class MyController {
         return userService.updateUser(user);
     }
 
-    // @GetMapping("/login")
-    // public boolean login(@RequestBody User user) {
-    //     return userService.login(user);
-    // }
 }
