@@ -27,6 +27,10 @@ public class UserService {
         return userRepository.findAll();
     }
 
+    public Iterable<String> getAllPhoneNumbers() {
+        return userRepository.findAll().stream().map(User::getPhoneNumber).collect(java.util.stream.Collectors.toList());
+    }
+
     public User getUserByPhoneNumber(String phoneNumber) {
         return userRepository.findByPhoneNumber(phoneNumber);
     }
@@ -35,13 +39,13 @@ public class UserService {
         return userRepository.findById(_id);
     }
 
-    // public boolean login(User user) {
-    //     if (mongoTemplate.exists(Query.query(Criteria.where("phoneNumber").is(user.getPhoneNumber())), User.class)
-    //         && mongoTemplate.exists(Query.query(Criteria.where("password").is(user.getPassword())), User.class)) {
-    //             return true;
-    //     }
-    //     return false;
-    // }
+    public boolean login(User user) {
+        if (mongoTemplate.exists(Query.query(Criteria.where("phoneNumber").is(user.getPhoneNumber())), User.class)
+            && mongoTemplate.exists(Query.query(Criteria.where("password").is(user.getPassword())), User.class)) {
+                return true;
+        }
+        return false;
+    }
 
     public User updateUser(User user) {
         Optional<User> u = getUserById(user.get_id());
