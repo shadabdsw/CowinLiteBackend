@@ -26,14 +26,14 @@ public class MyController {
         return userService.getAllUsers();
     }
 
-    @GetMapping("/getUserByPhoneNumber/{phoneNumber}")
-    public User getUserByPhoneNumber(@PathVariable("phoneNumber") String phoneNumber) {
-        return userService.getUserByPhoneNumber(phoneNumber);
-    }
-
     @GetMapping("/getUserById/{_id}")
     public Optional<User> getUserById(@PathVariable("_id") String _id) {
         return userService.getUserById(_id);
+    }
+
+    @GetMapping("/getUserByPhoneNumber/{phoneNumber}")
+    public User getUserByPhoneNumber(@PathVariable("phoneNumber") String phoneNumber) {
+        return userService.getUserByPhoneNumber(phoneNumber);
     }
     
     @GetMapping("/getAllPhoneNumbers")
