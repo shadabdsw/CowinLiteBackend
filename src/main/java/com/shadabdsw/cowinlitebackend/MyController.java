@@ -21,7 +21,7 @@ public class MyController {
     @Autowired
     private UserService userService;
 
-    @GetMapping("/getAllUsers/")
+    @GetMapping("/getAllUsers")
     public Iterable<User> getAllUsers() {
         return userService.getAllUsers();
     }
