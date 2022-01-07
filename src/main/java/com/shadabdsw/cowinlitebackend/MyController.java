@@ -21,12 +21,12 @@ public class MyController {
     @Autowired
     private UserService userService;
 
-    @GetMapping("/")
+    @GetMapping("/getAllUsers/")
     public Iterable<User> getAllUsers() {
         return userService.getAllUsers();
     }
 
-    @GetMapping("/{phoneNumber}")
+    @GetMapping("/getUserByPhoneNumber/{phoneNumber}")
     public User getUserByPhoneNumber(@PathVariable("phoneNumber") String phoneNumber) {
         return userService.getUserByPhoneNumber(phoneNumber);
     }
