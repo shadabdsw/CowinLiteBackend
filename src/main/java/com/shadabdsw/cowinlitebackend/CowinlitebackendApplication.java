@@ -9,5 +9,4 @@ public class CowinlitebackendApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(CowinlitebackendApplication.class, args);
 	}
-
 }
