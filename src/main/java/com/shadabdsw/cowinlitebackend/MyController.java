@@ -3,6 +3,7 @@ package com.shadabdsw.cowinlitebackend;
 import java.util.Optional;
 
 import com.shadabdsw.cowinlitebackend.Model.User;
+import com.shadabdsw.cowinlitebackend.Model.UserPostReq;
 import com.shadabdsw.cowinlitebackend.Services.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,8 +49,9 @@ public class MyController {
 
     @PostMapping("/save")
     @ResponseBody
-    public User saveUser(@RequestBody User user) { //return responsebody of <User>
-        return userService.saveUser(user);
+    public User saveUser(@RequestBody UserPostReq user) { //return responsebody of <User>
+        User u = new User(user.getName(), user.getPhoneNumber(), user.getPassword(), user.getUserType(), user.getMember());
+        return userService.saveUser(u);
     }
 
     @PostMapping("/update")
