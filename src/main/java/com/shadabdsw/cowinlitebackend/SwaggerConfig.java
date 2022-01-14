@@ -7,7 +7,6 @@ import org.springframework.context.annotation.Configuration;
 
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
-import springfox.documentation.schema.Collections;
 import springfox.documentation.service.ApiInfo;
 import springfox.documentation.service.Contact;
 import springfox.documentation.spi.DocumentationType;
@@ -35,7 +34,7 @@ class SwaggerConfig {
             "1.0",
             "Terms of service",
             new Contact("Shadab Akhtar", "https://github.com/shadabdsw/", "shadab.akhtar@optimizeitsystems.com"),
-            "Apache 2.0", "http://www.apache.org/licenses/LICENSE-2.0.html",
+            "", "",
             Lists.newArrayList());
     }
 
