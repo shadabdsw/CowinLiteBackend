@@ -2,11 +2,8 @@ package com.shadabdsw.cowinlitebackend.Model;
 
 import java.util.List;
 
-import io.swagger.annotations.ApiModelProperty;
-
 public class UserPostReq {
 
-    @ApiModelProperty(required = true)
     private String name;
     private String phoneNumber;
     private String password;
