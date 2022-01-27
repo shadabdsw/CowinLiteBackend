@@ -59,9 +59,4 @@ public class MyController {
         return userService.updateUser(user);
     }
 
-    @PostMapping("/admin/save")
-    public User saveAdmin(@RequestBody User user) {
-        return userService.saveUser(user);
-    }
-
 }
