@@ -3,7 +3,6 @@ package com.shadabdsw.cowinlitebackend.Services;
 import java.util.Optional;
 
 import com.shadabdsw.cowinlitebackend.Model.User;
-import com.shadabdsw.cowinlitebackend.Model.UserPostReq;
 import com.shadabdsw.cowinlitebackend.Repositories.UserRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
