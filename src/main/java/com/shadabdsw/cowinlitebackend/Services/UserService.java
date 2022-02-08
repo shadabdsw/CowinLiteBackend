@@ -61,4 +61,15 @@ public class UserService {
         userRepository.deleteByPhoneNumber(phoneNumber);
     }
 
+    public User updateUserById(String _id, User user) {
+        Optional<User> u = getUserById(_id);
+        u.get().setName(user.getName());
+        u.get().setPhoneNumber(user.getPhoneNumber());
+        u.get().setPassword(user.getPassword());
+        u.get().setUserType(user.getUserType());
+        u.get().setMember(user.getMember());
+        return userRepository.save(u.get());
+        
+    }
+
 }
