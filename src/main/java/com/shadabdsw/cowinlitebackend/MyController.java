@@ -7,9 +7,11 @@ import com.shadabdsw.cowinlitebackend.Model.UserPostReq;
 import com.shadabdsw.cowinlitebackend.Services.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -64,8 +66,14 @@ public class MyController {
         userService.deleteUserById(_id);
     }
 
-    @PostMapping("/deleteUserByPhoneNumber/{phoneNumber}")
+    @DeleteMapping("/deleteUserByPhoneNumber/{phoneNumber}")
     public void deleteUserByPhoneNumber(@PathVariable("phoneNumber") String phoneNumber) {
         userService.deleteUserByPhoneNumber(phoneNumber);
     }
+
+    @PutMapping("/update/{_id}")
+    public User updateUserById(@PathVariable("_id") String _id, @RequestBody User user) {
+        return userService.updateUserById(_id, user);
+    }
+
 }
