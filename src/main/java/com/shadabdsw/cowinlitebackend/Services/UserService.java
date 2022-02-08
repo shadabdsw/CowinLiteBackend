@@ -53,8 +53,12 @@ public class UserService {
         return userRepository.save(u.get());
     }
 
-    public void deleteUser(String _id) {
+    public void deleteUserById(String _id) {
         userRepository.deleteById(_id);
+    }
+
+    public void deleteUserByPhoneNumber(String phoneNumber) {
+        userRepository.deleteByPhoneNumber(phoneNumber);
     }
 
 }
