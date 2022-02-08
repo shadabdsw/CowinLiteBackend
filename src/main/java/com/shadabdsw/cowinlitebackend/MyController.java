@@ -59,10 +59,13 @@ public class MyController {
         return userService.updateUser(user);
     }
 
-    @PostMapping("/delete/{_id}")
-    public void deleteUser(@PathVariable("_id") String _id) {
-        userService.deleteUser(_id);
+    @PostMapping("/deleteUserById/{_id}")
+    public void deleteUserById(@PathVariable("_id") String _id) {
+        userService.deleteUserById(_id);
     }
 
-
+    @PostMapping("/deleteUserByPhoneNumber/{phoneNumber}")
+    public void deleteUserByPhoneNumber(@PathVariable("phoneNumber") String phoneNumber) {
+        userService.deleteUserByPhoneNumber(phoneNumber);
+    }
 }
