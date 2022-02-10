@@ -92,5 +92,5 @@ public class User {
         return "User [_id=" + _id + ", name=" + name + ", phoneNumber=" + phoneNumber + ", password=" + password
                 + ", userType=" + userType + ", member=" + member + "]";
     }
-    
+
 }
