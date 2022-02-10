@@ -38,7 +38,7 @@ public class MyController {
     public User getUserByPhoneNumber(@PathVariable("phoneNumber") String phoneNumber) {
         return userService.getUserByPhoneNumber(phoneNumber);
     }
-    
+
     @GetMapping("/getAllPhoneNumbers")
     public Iterable<String> getAllPhoneNumbers() {
         return userService.getAllPhoneNumbers();
@@ -51,8 +51,9 @@ public class MyController {
 
     @PostMapping("/save")
     @ResponseBody
-    public User saveUser(@RequestBody UserPostReq user) { //return responsebody of <User>
-        User u = new User(user.getName(), user.getPhoneNumber(), user.getPassword(), user.getUserType(), user.getMember());
+    public User saveUser(@RequestBody UserPostReq user) { // return responsebody of <User>
+        User u = new User(user.getName(), user.getPhoneNumber(), user.getPassword(), user.getUserType(),
+                user.getMember());
         return userService.saveUser(u);
     }
 
