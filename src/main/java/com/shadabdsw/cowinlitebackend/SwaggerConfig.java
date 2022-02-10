@@ -29,13 +29,13 @@ class SwaggerConfig {
 
     private ApiInfo apiInfo() {
         return new ApiInfo(
-            "Swagger Cowin Lite API",
-            "This is the backend of Cowin Lite.",
-            "1.0",
-            "Terms of service",
-            new Contact("Shadab Akhtar", "https://github.com/shadabdsw/", "shadab.akhtar@optimizeitsystems.com"),
-            "", "",
-            Lists.newArrayList());
+                "Swagger Cowin Lite API",
+                "This is the backend of Cowin Lite.",
+                "1.0",
+                "Terms of service",
+                new Contact("Shadab Akhtar", "https://github.com/shadabdsw/", "shadab.akhtar@optimizeitsystems.com"),
+                "", "",
+                Lists.newArrayList());
     }
 
 }
