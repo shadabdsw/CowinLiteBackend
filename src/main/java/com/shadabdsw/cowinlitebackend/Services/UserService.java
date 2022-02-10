@@ -28,7 +28,8 @@ public class UserService {
     }
 
     public Iterable<String> getAllPhoneNumbers() {
-        return userRepository.findAll().stream().map(User::getPhoneNumber).collect(java.util.stream.Collectors.toList());
+        return userRepository.findAll().stream().map(User::getPhoneNumber)
+                .collect(java.util.stream.Collectors.toList());
     }
 
     public User getUserByPhoneNumber(String phoneNumber) {
@@ -41,8 +42,8 @@ public class UserService {
 
     public boolean login(User user) {
         if (mongoTemplate.exists(Query.query(Criteria.where("phoneNumber").is(user.getPhoneNumber())), User.class)
-            && mongoTemplate.exists(Query.query(Criteria.where("password").is(user.getPassword())), User.class)) {
-                return true;
+                && mongoTemplate.exists(Query.query(Criteria.where("password").is(user.getPassword())), User.class)) {
+            return true;
         }
         return false;
     }
@@ -69,7 +70,7 @@ public class UserService {
         u.get().setUserType(user.getUserType());
         u.get().setMember(user.getMember());
         return userRepository.save(u.get());
-        
+
     }
 
 }
