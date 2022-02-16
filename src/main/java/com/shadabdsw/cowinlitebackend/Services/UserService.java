@@ -73,4 +73,14 @@ public class UserService {
 
     }
 
+    public User loginUser(User user) {
+        User u = userRepository.findByPhoneNumber(user.getPhoneNumber());
+        if(u != null && u.getPassword().equals(user.getPassword())) {
+            return u;
+        } else {
+            return null;
+        }
+
+    }
+
 }
