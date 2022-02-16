@@ -77,4 +77,9 @@ public class MyController {
         return userService.updateUserById(_id, user);
     }
 
+    @PostMapping("/login")
+    public User login(@RequestBody User user) {
+        return userService.loginUser(user);
+    }
+
 }
