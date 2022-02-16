@@ -20,7 +20,14 @@ public class UserService {
     private MongoTemplate mongoTemplate;
 
     public User saveUser(User user) {
-        return userRepository.save(user);
+        User u = getUserByPhoneNumber(user.getPhoneNumber());
+        if (u == null) {
+            User u1 = new User(user.getName(), user.getPhoneNumber(), user.getPassword(), user.getUserType(),
+            user.getMember());
+            return userRepository.save(u1);
+        } else {
+            return null;
+        }
     }
 
     public Iterable<User> getAllUsers() {
@@ -74,7 +81,7 @@ public class UserService {
     }
 
     public User loginUser(User user) {
-        User u = userRepository.findByPhoneNumber(user.getPhoneNumber());
+        User u = getUserByPhoneNumber(user.getPhoneNumber());
         if(u != null && u.getPassword().equals(user.getPassword())) {
             return u;
         } else {
