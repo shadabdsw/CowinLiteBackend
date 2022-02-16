@@ -16,6 +16,7 @@ public class UserService {
 
     @Autowired
     private UserRepository userRepository;
+
     @Autowired
     private MongoTemplate mongoTemplate;
 
@@ -23,7 +24,7 @@ public class UserService {
         User u = getUserByPhoneNumber(user.getPhoneNumber());
         if (u == null) {
             User u1 = new User(user.getName(), user.getPhoneNumber(), user.getPassword(), user.getUserType(),
-            user.getMember());
+                    user.getMember());
             return userRepository.save(u1);
         } else {
             return null;
@@ -82,7 +83,7 @@ public class UserService {
 
     public User loginUser(User user) {
         User u = getUserByPhoneNumber(user.getPhoneNumber());
-        if(u != null && u.getPassword().equals(user.getPassword())) {
+        if (u != null && u.getPassword().equals(user.getPassword())) {
             return u;
         } else {
             return null;
