@@ -51,10 +51,8 @@ public class MyController {
 
     @PostMapping("/save")
     @ResponseBody
-    public User saveUser(@RequestBody UserPostReq user) { // return responsebody of <User>
-        User u = new User(user.getName(), user.getPhoneNumber(), user.getPassword(), user.getUserType(),
-                user.getMember());
-        return userService.saveUser(u);
+    public User saveUser(@RequestBody User user) { // return responsebody of <User>
+        return userService.saveUser(user);
     }
 
     @PostMapping("/update")
@@ -81,5 +79,5 @@ public class MyController {
     public User login(@RequestBody User user) {
         return userService.loginUser(user);
     }
-
+    
 }
