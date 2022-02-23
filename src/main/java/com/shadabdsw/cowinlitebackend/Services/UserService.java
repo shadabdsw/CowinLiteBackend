@@ -2,7 +2,6 @@ package com.shadabdsw.cowinlitebackend.Services;
 
 import java.util.Optional;
 
-import com.shadabdsw.cowinlitebackend.ResponseHandler;
 import com.shadabdsw.cowinlitebackend.Model.User;
 import com.shadabdsw.cowinlitebackend.Repositories.UserRepository;
 
@@ -10,8 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -76,21 +73,6 @@ public class UserService {
         u.get().setUserType(user.getUserType());
         u.get().setMember(user.getMember());
         return userRepository.save(u.get());
-    }
-
-    // public ResponseEntity<Object> loginUser(User user) {
-    //         if(u.getPassword().equals(user.getPassword())) {
-    //             return ResponseHandler.generateResponse("User found!", HttpStatus.OK, u);
-    //         } else {
-    //             return ResponseHandler.generateResponse("Incorrect Password!", HttpStatus.FORBIDDEN, null);
-    //         }
-    //     } else {
-    //         return ResponseHandler.generateResponse("User not found!", HttpStatus.NOT_FOUND, null);
-    //     }
-    // }
-
-    public Optional<User> Get(String _id) {
-        return userRepository.findById(_id);
     }
 
 }
