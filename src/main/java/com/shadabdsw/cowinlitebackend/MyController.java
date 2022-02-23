@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -46,10 +46,11 @@ public class MyController {
         return userService.getAllPhoneNumbers();
     }
 
-    @GetMapping("/login/{phoneNumber}/{password}")
-    public boolean login(@PathVariable("phoneNumber") String phoneNumber, @PathVariable("password") String password) {
-        return userService.login(new User(phoneNumber, password));
-    }
+    // @GetMapping("/login/{phoneNumber}/{password}")
+    // public boolean login(@PathVariable("phoneNumber") String phoneNumber,
+    // @PathVariable("password") String password) {
+    // return userService.login(new User(phoneNumber, password));
+    // }
 
     @GetMapping("/users/{_id}")
     @ResponseBody
@@ -69,20 +70,20 @@ public class MyController {
     @PostMapping("/save")
     public ResponseEntity<Object> saveUser(@RequestBody User user) {
         try {
-            User result = userService.saveUser(user);
-            if (result != null) {
-                return ResponseHandler.generateResponse("User created!", HttpStatus.CREATED, result);
+            if (userService.getUserByPhoneNumber(user.getPhoneNumber()) == null) {
+                User result = userService.saveUser(user);
+                if (result != null) {
+                    return ResponseHandler.generateResponse("User created!", HttpStatus.CREATED, result);
+                } else {
+                    return ResponseHandler.generateResponse("Data not saved!", HttpStatus.NOT_FOUND, result);
+                }
             } else {
-                return ResponseHandler.generateResponse("Data not saved!", HttpStatus.NOT_FOUND, result);
+                return ResponseHandler.generateResponse("User already exists!", HttpStatus.CONFLICT, null);
             }
         } catch (Exception e) {
             return ResponseHandler.generateResponse(e.getMessage(), HttpStatus.MULTI_STATUS, null);
         }
     }
-
-    // public User saveUser(@RequestBody User user) {
-    //     return userService.saveUser(user);
-    // }
 
     @PostMapping("/update")
     public User updateUser(@RequestBody User user) {
@@ -105,9 +106,18 @@ public class MyController {
     }
 
     @PostMapping("/login")
-    public User login(@RequestBody User user) {
-        return userService.loginUser(user);
+    public ResponseEntity<Object> login(@RequestParam("phoneNumber") String phoneNumber,
+            @RequestParam("password") String password) {
+        User u = getUserByPhoneNumber(phoneNumber);
+        if (u != null) {
+            if (u.getPassword().equals(password)) {
+                return ResponseHandler.generateResponse("Successfully logged in!", HttpStatus.OK, u);
+            } else {
+                return ResponseHandler.generateResponse("Wrong password!", HttpStatus.UNAUTHORIZED, null);
+            }
+        } else {
+            return ResponseHandler.generateResponse("User not found!", HttpStatus.NOT_FOUND, null);
+        }
     }
 
-    
 }
