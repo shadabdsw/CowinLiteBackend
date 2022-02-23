@@ -6,6 +6,7 @@ import com.shadabdsw.cowinlitebackend.Model.User;
 import com.shadabdsw.cowinlitebackend.Services.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -16,7 +17,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -46,42 +46,45 @@ public class MyController {
         return userService.getAllPhoneNumbers();
     }
 
-    // @GetMapping("/login/{phoneNumber}/{password}")
-    // public boolean login(@PathVariable("phoneNumber") String phoneNumber,
-    // @PathVariable("password") String password) {
-    // return userService.login(new User(phoneNumber, password));
-    // }
-
-    @GetMapping("/users/{_id}")
-    @ResponseBody
-    public ResponseEntity<Object> Get(@PathVariable String _id) {
+    @PostMapping("/save")
+    public ResponseEntity<User> saveUser(@RequestBody User user) {
+        HttpHeaders header = new HttpHeaders();
         try {
-            Optional<User> result = userService.Get(_id);
-            if (result.isPresent()) {
-                return ResponseHandler.generateResponse("Successfully retrieved data!", HttpStatus.OK, result);
+            if (userService.getUserByPhoneNumber(user.getPhoneNumber()) == null) {
+                User u = userService.saveUser(user);
+                if (u != null) {
+                    header.add("desc", "User created!");
+                    return ResponseEntity.status(HttpStatus.CREATED).headers(header).body(u);
+                } else {
+                    header.add("desc", "User not created!");
+                    return ResponseEntity.status(HttpStatus.BAD_REQUEST).headers(header).build();
+                }
             } else {
-                return ResponseHandler.generateResponse("Data not found!", HttpStatus.NOT_FOUND, result);
+                header.add("desc", "User already exists!");
+                return ResponseEntity.status(HttpStatus.CONFLICT).headers(header).build();
             }
         } catch (Exception e) {
-            return ResponseHandler.generateResponse(e.getMessage(), HttpStatus.MULTI_STATUS, null);
+            header.add("desc", e.getMessage());
+            return ResponseEntity.status(HttpStatus.MULTI_STATUS).headers(header).build();
         }
     }
 
-    @PostMapping("/save")
-    public ResponseEntity<Object> saveUser(@RequestBody User user) {
-        try {
-            if (userService.getUserByPhoneNumber(user.getPhoneNumber()) == null) {
-                User result = userService.saveUser(user);
-                if (result != null) {
-                    return ResponseHandler.generateResponse("User created!", HttpStatus.CREATED, result);
-                } else {
-                    return ResponseHandler.generateResponse("Data not saved!", HttpStatus.NOT_FOUND, result);
-                }
+    @PostMapping("/login")
+    public ResponseEntity<User> login(@RequestParam("phoneNumber") String phoneNumber,
+            @RequestParam("password") String password) {
+        User u = getUserByPhoneNumber(phoneNumber);
+        HttpHeaders header = new HttpHeaders();
+        if (u != null) {
+            if (u.getPassword().equals(password)) {
+                header.add("desc", "Successfully logged in!");
+                return ResponseEntity.status(HttpStatus.OK).headers(header).body(u);
             } else {
-                return ResponseHandler.generateResponse("User already exists!", HttpStatus.CONFLICT, null);
+                header.add("desc", "Wrong password!");
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).headers(header).build();
             }
-        } catch (Exception e) {
-            return ResponseHandler.generateResponse(e.getMessage(), HttpStatus.MULTI_STATUS, null);
+        } else {
+            header.add("desc", "User not found!");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).headers(header).build();
         }
     }
 
@@ -105,19 +108,6 @@ public class MyController {
         return userService.updateUserById(_id, user);
     }
 
-    @PostMapping("/login")
-    public ResponseEntity<Object> login(@RequestParam("phoneNumber") String phoneNumber,
-            @RequestParam("password") String password) {
-        User u = getUserByPhoneNumber(phoneNumber);
-        if (u != null) {
-            if (u.getPassword().equals(password)) {
-                return ResponseHandler.generateResponse("Successfully logged in!", HttpStatus.OK, u);
-            } else {
-                return ResponseHandler.generateResponse("Wrong password!", HttpStatus.UNAUTHORIZED, null);
-            }
-        } else {
-            return ResponseHandler.generateResponse("User not found!", HttpStatus.NOT_FOUND, null);
-        }
-    }
+    
 
 }
