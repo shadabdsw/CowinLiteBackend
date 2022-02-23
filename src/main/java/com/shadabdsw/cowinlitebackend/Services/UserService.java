@@ -2,6 +2,7 @@ package com.shadabdsw.cowinlitebackend.Services;
 
 import java.util.Optional;
 
+import com.shadabdsw.cowinlitebackend.ResponseHandler;
 import com.shadabdsw.cowinlitebackend.Model.User;
 import com.shadabdsw.cowinlitebackend.Repositories.UserRepository;
 
@@ -9,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -21,14 +24,9 @@ public class UserService {
     private MongoTemplate mongoTemplate;
 
     public User saveUser(User user) {
-        User u = getUserByPhoneNumber(user.getPhoneNumber());
-        if (u == null) {
-            User u1 = new User(user.getName(), user.getPhoneNumber(), user.getPassword(), user.getUserType(),
-                    user.getMember());
-            return userRepository.save(u1);
-        } else {
-            return null;
-        }
+        User u = new User(user.getName(), user.getPhoneNumber(), user.getPassword(), user.getUserType(),
+                user.getMember());
+        return userRepository.save(u);
     }
 
     public Iterable<User> getAllUsers() {
@@ -78,18 +76,18 @@ public class UserService {
         u.get().setUserType(user.getUserType());
         u.get().setMember(user.getMember());
         return userRepository.save(u.get());
-
     }
 
-    public User loginUser(User user) {
-        User u = getUserByPhoneNumber(user.getPhoneNumber());
-        if (u != null && u.getPassword().equals(user.getPassword())) {
-            return u;
-        } else {
-            return null;
-        }
-
-    }
+    // public ResponseEntity<Object> loginUser(User user) {
+    //         if(u.getPassword().equals(user.getPassword())) {
+    //             return ResponseHandler.generateResponse("User found!", HttpStatus.OK, u);
+    //         } else {
+    //             return ResponseHandler.generateResponse("Incorrect Password!", HttpStatus.FORBIDDEN, null);
+    //         }
+    //     } else {
+    //         return ResponseHandler.generateResponse("User not found!", HttpStatus.NOT_FOUND, null);
+    //     }
+    // }
 
     public Optional<User> Get(String _id) {
         return userRepository.findById(_id);
