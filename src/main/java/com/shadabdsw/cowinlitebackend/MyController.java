@@ -6,10 +6,8 @@ import com.shadabdsw.cowinlitebackend.Model.User;
 import com.shadabdsw.cowinlitebackend.Services.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,7 +16,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -29,18 +26,33 @@ public class MyController {
     private UserService userService;
 
     @GetMapping("/getAllUsers")
-    public Iterable<User> getAllUsers() {
-        return userService.getAllUsers();
+    public ResponseEntity<Iterable<User>> getAllUsers() {
+        Iterable<User> users = userService.getAllUsers();
+        if(users != null) {
+            return ResponseEntity.status(HttpStatus.OK).body(users);
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
     }
 
     @GetMapping("/getUserById/{_id}")
-    public Optional<User> getUserById(@PathVariable("_id") String _id) {
-        return userService.getUserById(_id);
+    public ResponseEntity<Optional<User>> getUserById(@PathVariable("_id") String _id) {
+        Optional<User> user = userService.getUserById(_id);
+        if(user.isPresent()) {
+            return ResponseEntity.status(HttpStatus.OK).body(user);
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
     }
 
     @GetMapping("/getUserByPhoneNumber/{phoneNumber}")
-    public User getUserByPhoneNumber(@PathVariable("phoneNumber") String phoneNumber) {
-        return userService.getUserByPhoneNumber(phoneNumber);
+    public ResponseEntity<Optional<User>> getUserByPhoneNumber(@PathVariable("phoneNumber") String phoneNumber) {
+        Optional<User> user = userService.getUserByPhoneNumber(phoneNumber);
+        if(user.isPresent()) {
+            return ResponseEntity.status(HttpStatus.OK).body(user);
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
     }
 
     @GetMapping("/getAllPhoneNumbers")
@@ -69,7 +81,7 @@ public class MyController {
     @PostMapping("/login")
     public ResponseEntity<User> login(@RequestParam("phoneNumber") String phoneNumber,
             @RequestParam("password") String password) {
-        User u = getUserByPhoneNumber(phoneNumber);
+        User u = getUserByPhoneNumber(phoneNumber).getBody().get();
         try {
             if (u != null) {
                 if (u.getPassword().equals(password)) {
