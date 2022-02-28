@@ -17,6 +17,10 @@ public class User {
     public User() {
     }
 
+    public User(String name){ 
+        this.name = name;
+    }
+
     public User(String _id, String name, String phoneNumber, String password, String userType, List<Member> member) {
         this._id = _id;
         this.name = name;
