@@ -20,28 +20,32 @@ public class UserService {
     @Autowired
     private MongoTemplate mongoTemplate;
 
+    public Iterable<User> getAllUsers() {
+        return userRepository.findAll();
+    }
+
+    public Optional<User> getUserById(String _id) {
+        return userRepository.findById(_id);
+    }
+
+    public Optional<User> getUserByPhoneNumber(String phoneNumber) {
+        return userRepository.findByPhoneNumber(phoneNumber);
+    }
+    
     public User saveUser(User user) {
         User u = new User(user.getName(), user.getPhoneNumber(), user.getPassword(), user.getUserType(),
                 user.getMember());
         return userRepository.save(u);
     }
 
-    public Iterable<User> getAllUsers() {
-        return userRepository.findAll();
-    }
+    
 
     public Iterable<String> getAllPhoneNumbers() {
         return userRepository.findAll().stream().map(User::getPhoneNumber)
                 .collect(java.util.stream.Collectors.toList());
     }
 
-    public User getUserByPhoneNumber(String phoneNumber) {
-        return userRepository.findByPhoneNumber(phoneNumber);
-    }
-
-    public Optional<User> getUserById(String _id) {
-        return userRepository.findById(_id);
-    }
+    
 
     public boolean login(User user) {
         if (mongoTemplate.exists(Query.query(Criteria.where("phoneNumber").is(user.getPhoneNumber())), User.class)
