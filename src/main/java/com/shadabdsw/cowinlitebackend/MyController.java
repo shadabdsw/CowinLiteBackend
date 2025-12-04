@@ -1,5 +1,6 @@
 package com.shadabdsw.cowinlitebackend;
 
+import java.util.Objects;
 import java.util.Optional;
 
 import com.shadabdsw.cowinlitebackend.Model.User;
@@ -63,10 +64,10 @@ public class MyController {
     @PostMapping("/save")
     public ResponseEntity<User> saveUser(@RequestBody User user) {
         try {
-            if (userService.getUserByPhoneNumber(user.getPhoneNumber()) == null) {
-                User u = userService.saveUser(user);
-                if (u != null) {
-                    return ResponseEntity.status(HttpStatus.CREATED).body(u);
+            if (HttpStatus.NOT_FOUND.equals(getUserByPhoneNumber(user.getPhoneNumber()).getStatusCode())) {
+                User newUser = userService.saveUser(user);
+                if (Objects.nonNull(newUser)) {
+                    return ResponseEntity.status(HttpStatus.CREATED).body(newUser);
                 } else {
                     return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
                 }
